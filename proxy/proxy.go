@@ -123,7 +123,7 @@ func CreateProxy(requests *router_struct.NewProxyRequests, response chan router_
 		response <- router_struct.Response{Status: 500, Message: "No available ports"}
 		return
 	}
-	listenAddress := fmt.Sprintf(":%d", port)
+	listenAddress := fmt.Sprintf("%s:%d", config.C.ProxyListenIP, port)
 	server := &http.Server{
 		Addr:    listenAddress,
 		Handler: proxyServer,
@@ -141,7 +141,9 @@ func CreateProxy(requests *router_struct.NewProxyRequests, response chan router_
 		if isErr {
 			return
 		}
-		response <- router_struct.Response{Status: 200, Message: "Proxy server started", Data: listenAddress}
+		response <- router_struct.Response{Status: 200, Message: "Proxy server started", Data: map[string]any{
+			"port": port,
+		}}
 	})
 
 	time.AfterFunc(time.Duration(requests.ProxyLifetimeSec)*time.Second, func() {

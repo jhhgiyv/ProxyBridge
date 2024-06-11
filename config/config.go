@@ -21,6 +21,8 @@ type config struct {
 	MaxProxyLifetimeSec int    `json:"max_proxy_lifetime_sec"`
 	ApiKey              string `json:"api_key"`
 	Ports               *PortsQueue
+	GinListen           string `json:"gin_listen"`
+	ProxyListenIP       string `json:"proxy_listen_ip"`
 }
 
 var C *config
@@ -29,6 +31,8 @@ func InitConfig() {
 	viper.SetDefault("PortRange", "8000-9000")
 	viper.SetDefault("MaxProxyLifetimeSec", 3600)
 	viper.SetDefault("ApiKey", "your_api_key")
+	viper.SetDefault("GinListen", "localhost:8080")
+	viper.SetDefault("ProxyListenIP", "127.0.0.1")
 	viper.SetConfigName("config")
 	viper.SetConfigType("json")
 	viper.AddConfigPath(".")

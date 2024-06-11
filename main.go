@@ -11,7 +11,7 @@ func main() {
 	config.InitConfig()
 	r := gin.Default()
 	router.InitRouter(r)
-	err := r.Run()
+	err := r.Run(config.C.GinListen)
 	if err != nil {
 		log.Fatal(err)
 	}

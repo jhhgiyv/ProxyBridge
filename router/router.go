@@ -1,6 +1,7 @@
 package router
 
 import (
+	"ProxyBridge/config"
 	"ProxyBridge/proxy"
 	"ProxyBridge/router_struct"
 	"github.com/gin-gonic/gin"
@@ -19,6 +20,10 @@ func NewProxy(context *gin.Context) {
 	err := context.BindJSON(request)
 	if err != nil {
 		context.JSON(400, router_struct.Response{Status: 400, Message: "Invalid request\n" + err.Error()})
+		return
+	}
+	if request.ProxyLifetimeSec < 1 || request.ProxyLifetimeSec > config.C.MaxProxyLifetimeSec {
+		context.JSON(400, router_struct.Response{Status: 400, Message: "Invalid proxy lifetime"})
 		return
 	}
 	go proxy.CreateProxy(request, resp)

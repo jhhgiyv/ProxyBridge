@@ -1,5 +1,0 @@
-{
-  "apikey": "your_api_key",
-  "maxproxylifetimesec": 3600,
-  "portrange": "8081-8081"
-}
